@@ -1,16 +1,15 @@
-# Folosește o imagine oficială Java 17
 FROM eclipse-temurin:17-jdk
 
-# Setează directorul de lucru în container
+# Creează directorul de lucru
 WORKDIR /app
 
-# Copiază tot codul în container
+# Copiază tot proiectul în container
 COPY . .
 
-# Compilează aplicația (cu mvnw dacă îl ai)
-RUN ./mvnw clean package -DskipTests
+# Compilează aplicația cu Maven instalat în container
+RUN mvn clean package -DskipTests
 
-# Expune portul pe care rulează Spring Boot
+# Expune portul (default Spring Boot)
 EXPOSE 8080
 
 # Rulează aplicația
