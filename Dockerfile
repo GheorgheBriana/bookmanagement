@@ -1,16 +1,22 @@
+# Folosim imaginea oficială OpenJDK 17
 FROM eclipse-temurin:17-jdk
 
-# Creează directorul de lucru
+# Setăm directorul de lucru
 WORKDIR /app
 
-# Copiază tot proiectul în container
+# Instalăm Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean
+
+# Copiem codul sursă
 COPY . .
 
-# Compilează aplicația cu Maven instalat în container
+# Compilăm aplicația Spring Boot
 RUN mvn clean package -DskipTests
 
-# Expune portul (default Spring Boot)
+# Expunem portul pe care rulează Spring Boot
 EXPOSE 8080
 
-# Rulează aplicația
+# Rulăm aplicația
 CMD ["java", "-jar", "target/bookmanagement-0.0.1-SNAPSHOT.jar"]
